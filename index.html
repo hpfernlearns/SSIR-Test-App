@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Form Example</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <section class="section container">
+      <form name="ssirform" id="ssirform">
+        <h1 class="title" id="SMS Sender ID Registration">SMS Sender ID Registration</h1>
+        <div class="field">
+          <label class="label" id="company_name" for="company_name">Company Name</label>
+          <div class="control">
+            <input
+              required
+              class="input"
+              type="text"
+              name="company_name"
+            />
+          </div>
+        </div>
+
+        <div class="field">
+            <label class="label" id="uen" for="uen">Company UEN</label>
+            <div class="control">
+              <input
+                required
+                class="input"
+                type="text"
+                name="uen"
+              />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" id="name_registrant" for="name_registrant">Registrant Name</label>
+            <div class="control">
+              <input
+                required
+                class="input"
+                type="text"
+                name="name_registrant"
+              />
+            </div>
+          </div>
+
+        <div class="field">
+          <label class="label" id="registrant_email" for="registrant_email">Registrant Email</label>
+          <div class="control">
+            <input
+              class="input"
+              type="email"
+              required
+              name="registrant_email"
+            />
+            
+          </div>
+        </div>
+
+        <div class="field">
+            <label class="label" id="sender_id" for="sender_id">Sender ID</label>
+            <div class="control">
+              <input
+                required
+                class="input"
+                type="text"
+                name="sender_id"
+              />
+            </div>
+          </div>
+
+        <div class="field">
+          <label class="label" id="aggregator" for="aggregator">Aggregator</label>
+          <div class="control">
+            <div class="select">
+              <select name="aggregator">
+                <option value="Commzgate">Commzgate</option>
+                <option value="Sinch">Sinch</option>
+                <option value="Twillio">Twillio</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-primary" type="submit">Submit</button>
+          </div>
+        </div>
+      </form>
+    </section>
+  </body>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  
+<script>
+   const { createClient } = supabase
+   supabase = createClient('https://gsbfkqmmshmeecipchbt.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzYmZrcW1tc2htZWVjaXBjaGJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTE5NzI5MTcsImV4cCI6MjAyNzU0ODkxN30.DkjTc_IvMIBd10DXmrLfk7YaoaI3Vqq1WXVhKOETFPA')
+   
+   const form = document.querySelector('#ssirform')
+   form.addEventListener('submit', async (event)=> {
+         event.preventDefault()
+
+         const formInputs = form.querySelectorAll('input,select')
+
+         let submission = {}
+
+         formInputs.forEach(element => {
+               const { value, name } = element
+               if (value) {
+                  submission[name] = value
+               }
+         })
+            const {error,data} = await supabase.from('SSIR').insert([submission])
+
+            if (error){
+              alert('There was an error, please try again')
+            } else {
+              alert('Thank you for your submission')
+            }
+            formInputs.forEach(element => element.value = '');
+       })
+
+</script>
+</html>
